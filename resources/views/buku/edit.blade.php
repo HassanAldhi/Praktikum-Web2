@@ -17,7 +17,7 @@
             </div>
             <div class="mb-3">
                 <label for="tgl_terbit" class="form-label">Tgl. Terbit</label>
-                <input type="date" class="form-control" id="tgl_terbit" name="tgl_terbit" value="{{ $buku->tgl_terbit }}">
+                <input type="date" class="date form-control" id="tgl_terbit" name="tgl_terbit" value="{{ $buku->tgl_terbit }}">
             </div>
             <button type="submit" class="btn btn-primary">Simpan</button>
             <a href="/buku" class="btn btn-danger">Batal</a>

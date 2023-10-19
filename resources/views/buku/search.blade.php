@@ -15,11 +15,20 @@
     @if(Session::has('pesanDelete'))
         <div class="alert alert-danger">{{Session::get('pesanDelete')}}</div>
     @endif
+
+    @if(count($data_buku))
+        <div class="alert alert-success">Ditemukan <strong>{{count($data_buku)}}</strong> <strong>data dengan kata : </strong> {{$cari}} </div>
+    @else
+        <div class="alert alert-warning"><h4>Data {{$cari}} tidak ditemukan </h4></div>
+        <a href="/buku" class="btn btn-warning">kembali</a>
+    @endif
+        
         <form action="{{ route('buku.search')}}" method="get">
             @csrf
             <input type="text" name="kata" class="form-control" placeholder="cari...." 
             style="width: 30%; display: inline; margin-top: 10px; margin-bottom: 10px; float:right;" >
         </form>
+        
         <a href="{{ route('buku.create')}}" class="btn btn-primary">Tambah Buku</a>
         <table class="table my-3">
             <thead class="table-light">
