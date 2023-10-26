@@ -1,3 +1,4 @@
+<x-app-layout>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <div class="container my-5">
         <h4>Edit Buku</h4>
@@ -23,3 +24,4 @@
             <a href="/buku" class="btn btn-danger">Batal</a>
         </form>
     </div>
+</x-app-layout>

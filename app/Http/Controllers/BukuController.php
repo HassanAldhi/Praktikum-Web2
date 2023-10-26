@@ -13,7 +13,7 @@ class BukuController extends Controller
         $jumlah_buku = Buku::count();
         $total = Buku::sum('harga');
 
-        return view('buku', compact('data_buku','jumlah_buku','total'));
+        return view('dashboard', compact('data_buku','jumlah_buku','total'));
     }
      public function create(){
         return view('buku.create');
