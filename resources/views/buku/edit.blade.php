@@ -1,6 +1,7 @@
 <x-app-layout>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-<div class="container my-5">
+<div class="max-w-7xl mt-5 mx-auto sm:px-6 lg:px-8">
+<div class="bg-white p-6 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
         <h4>Edit Buku</h4>
         <form action="{{ route('buku.update', $buku->id) }}" method="POST">
             @csrf 
@@ -23,5 +24,6 @@
             <button type="submit" class="btn btn-primary">Simpan</button>
             <a href="/buku" class="btn btn-danger">Batal</a>
         </form>
+    </div>
     </div>
 </x-app-layout>

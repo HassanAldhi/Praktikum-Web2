@@ -8,7 +8,8 @@
 <body>
 <x-app-layout>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <div class="container" style="padding: 20px;">
+<div class="max-w-7xl mt-5 mx-auto sm:px-6 lg:px-8">
+<div class="bg-white p-6 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
     @if(Session::has('pesan'))
         <div class="alert alert-success">{{Session::get('pesan')}}</div>
     @endif
@@ -68,6 +69,7 @@
             <p><b>Total Harga :</b> {{ "Rp ".number_format($total, 2, ',', '.') }}</p>
         </div>
     </div>
+</div>
 
     <script>
         function confirmDelete(id) {
