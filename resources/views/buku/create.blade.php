@@ -10,7 +10,7 @@
                 @endforeach
             </ul>
         @endif
-    <form action="{{ route('buku.store') }}" method="POST">
+    <form action="{{ route('buku.store') }}" method="POST" enctype="multipart/form-data">
         @csrf 
         <div class="mb-3">
             <label for="judul" class="form-label">Judul</label>
@@ -28,8 +28,19 @@
             <label for="tgl_terbit" class="form-label">Tgl. Terbit</label>
             <input type="date" class="date form-control" id="tgl_terbit" name="tgl_terbit">
         </div>
-        <button type="submit" class="btn btn-primary">Simpan</button>
-        <a href="/buku" class="btn btn-danger">Batal</a>
+        <div class="mb-3">
+            <label for="gambar" class="form-label">Cover Buku</label>
+            <input type="file" class="form-control" id="thumbnail" name="thumbnail"><br> 
+        </div>
+        <div class="mb-3">
+            <label for="galeri" class="form-label">Tambah Galeri</label><br>
+            <span class="text-muted small">Anda dapat memilih lebih dari satu file</span>
+            <input type="file" class="form-control" name="galeri[]" id="galeri" multiple>
+        </div>
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">Simpan</button>
+            <a href="/buku" class="btn btn-danger">Batal</a>
+        </div>
     </form>
 </div>
 </div>

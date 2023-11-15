@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/buku/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
         Route::get('/buku/edit/{id}', [BukuController::class, 'edit'])->name('buku.edit');
         Route::post('/buku/update/{id}', [BukuController::class, 'update'])->name('buku.update');
+        Route::post('buku/delete_galeri/{id}', [BukuController::class, 'galeriDestroy'])->name('buku.delete_galeri');
     });
     
     Route::get('/buku/search', [BukuController::class, 'search'])->name('buku.search');

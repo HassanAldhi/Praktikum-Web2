@@ -27,6 +27,7 @@
             <thead class="table-light">
                 <tr>
                     <th>No</th>
+                    <th>Cover</th>
                     <th>Judul Buku</th>
                     <th>Penulis</th>
                     <th>Harga</th>
@@ -40,6 +41,14 @@
                 @foreach($data_buku as $buku)
                 <tr>
                     <th scope="row">{{ ($data_buku->currentPage() - 1) * $data_buku->perPage() + $loop->index + 1 }}</th>
+                    <td>                       
+                        @if ( $buku->filepath )
+                        <div class="relative h-10 w-10">
+                            <img class="h-full w-full object-cover object-center"
+                                src="{{ asset($buku->filepath)}}" />
+                        </div>
+                        @endif
+                    </td>
                     <td>{{ $buku->judul }}</td>
                     <td>{{ $buku->penulis }}</td>
                     <td>{{ "Rp ".number_format($buku->harga, 2, ',', '.') }}</td>
