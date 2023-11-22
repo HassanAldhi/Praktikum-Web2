@@ -32,9 +32,7 @@
                     <th>Penulis</th>
                     <th>Harga</th>
                     <th>Tgl. Terbit</th>
-                    @if(Auth::check() && Auth::user()->level == 'admin')
                     <th>Aksi</th>
-                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -53,16 +51,17 @@
                     <td>{{ $buku->penulis }}</td>
                     <td>{{ "Rp ".number_format($buku->harga, 2, ',', '.') }}</td>
                     <td>{{ $buku->tgl_terbit->format('d/m/Y') }}</td>
-                    @if(Auth::check() && Auth::user()->level == 'admin')
                     <td class="d-flex">
                         <form action="{{ route('buku.destroy', $buku->id) }}" method="post">
                             @csrf
+                            @if(Auth::check() && Auth::user()->level == 'admin')
                             @method('DELETE')
                             <a class="btn btn-primary me-1" href="{{ route('buku.edit', $buku->id) }}">Edit</a>
                             <button type="submit" class="btn btn-danger" onclick="confirmDelete('{{ $buku->judul }}')">Delete</button>
+                            @endif
+                            <a class="btn btn-success me-1" href="{{ route('galeri.buku', $buku->id) }}">Detail</a>
                         </form>
                     </td>
-                    @endif
                 </tr>
                 @endforeach
             </tbody>

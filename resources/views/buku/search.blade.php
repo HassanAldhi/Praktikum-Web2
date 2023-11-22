@@ -30,8 +30,9 @@
             <input type="text" name="kata" class="form-control" placeholder="cari...." 
             style="width: 30%; display: inline; margin-top: 10px; margin-bottom: 10px; float:right;" >
         </form>
-        
+        @if(Auth::check() && Auth::user()->level == 'admin')
         <a href="{{ route('buku.create')}}" class="btn btn-primary">Tambah Buku</a>
+        @endif
         <table class="table my-3">
             <thead class="table-light">
                 <tr>
@@ -40,7 +41,9 @@
                     <th>Penulis</th>
                     <th>Harga</th>
                     <th>Tgl. Terbit</th>
+                    @if(Auth::check() && Auth::user()->level == 'admin')
                     <th>Aksi</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -51,6 +54,7 @@
                     <td>{{ $buku->penulis }}</td>
                     <td>{{ "Rp ".number_format($buku->harga, 2, ',', '.') }}</td>
                     <td>{{ $buku->tgl_terbit->format('d/m/Y') }}</td>
+                    @if(Auth::check() && Auth::user()->level == 'admin')
                     <td class="d-flex">
                         <form action="{{ route('buku.destroy', $buku->id) }}" method="post">
                             @csrf
@@ -59,6 +63,7 @@
                             <button type="submit" class="btn btn-danger" onclick="confirmDelete('{{ $buku->judul }}')">Delete</button>
                         </form>
                     </td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>

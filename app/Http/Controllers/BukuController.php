@@ -17,19 +17,14 @@ class BukuController extends Controller
 
         return view('dashboard', compact('data_buku','jumlah_buku','total'));
     }
+
      public function create(){
         return view('buku.create');
      }
 
      public function store(Request $request)
      {
-         $this->validate($request, [
-             'judul' => 'required|string',
-             'penulis' => 'required|string|max:30',
-             'harga' => 'required|numeric|min:500',
-             'tgl_terbit' => 'required|date',
-         ]);
- 
+
          $fileName = 'default_thumbnail.png';
          $filePath = 'uploads/default_thumbnail.png';
          if ($request->hasFile('thumbnail')) {
@@ -134,4 +129,8 @@ class BukuController extends Controller
         return view('buku.search', compact('jumlah_buku','total','data_buku','cari'));
     }
 
+    public function galbuku($id){
+        $buku = Buku::find($id);
+        return view('buku.detail', compact('buku'));
+    }
 }
