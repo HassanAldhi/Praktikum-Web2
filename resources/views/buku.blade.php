@@ -30,6 +30,7 @@
                     <th>Cover</th>
                     <th>Judul Buku</th>
                     <th>Penulis</th>
+                    <th>Rating</th>
                     <th>Harga</th>
                     <th>Tgl. Terbit</th>
                     <th>Aksi</th>
@@ -47,8 +48,21 @@
                         </div>
                         @endif
                     </td>
-                    <td>{{ $buku->judul }}</td>
+                    <td>
+                        <a href="{{route('galeri.buku', $buku->id)}}" style="color:black; text-decoration: none;">
+                        <p>{{ $buku->judul }}</p></a>
+                    </td>
                     <td>{{ $buku->penulis }}</td>
+                    <td><span style="color:orange;">★</span> 
+                        @php
+                            $averageRating = $buku->rating()->avg('rating');
+                        @endphp
+                        @if ($averageRating !== null)
+                            {{ number_format($averageRating, 1) }}
+                        @else
+                            <span style="color:grey;">belum dinilai</span>
+                        @endif
+                    </td>
                     <td>{{ "Rp ".number_format($buku->harga, 2, ',', '.') }}</td>
                     <td>{{ $buku->tgl_terbit->format('d/m/Y') }}</td>
                     <td class="d-flex">
@@ -56,10 +70,10 @@
                             @csrf
                             @if(Auth::check() && Auth::user()->level == 'admin')
                             @method('DELETE')
-                            <a class="btn btn-primary me-1" href="{{ route('buku.edit', $buku->id) }}">Edit</a>
-                            <button type="submit" class="btn btn-danger" onclick="confirmDelete('{{ $buku->judul }}')">Delete</button>
+                            <a class="btn btn-outline-primary me-1" href="{{ route('buku.edit', $buku->id) }}">Edit</a>
+                            <button type="submit" class="btn btn-outline-danger" onclick="return confirmDelete('{{ $buku->judul }}')">Delete</button>
                             @endif
-                            <a class="btn btn-success me-1" href="{{ route('galeri.buku', $buku->id) }}">Detail</a>
+                            <a class="btn btn-outline-success" href="{{ route('galeri.buku', $buku->id) }}">Detail</a>
                         </form>
                     </td>
                 </tr>
@@ -74,10 +88,9 @@
     </div>
 
     <script>
-        function confirmDelete(id) {
-            if (confirm('Yakin mau menghapus buku dengan ID ' + id + '?')) {
-                document.forms['delete-form-' + id].submit();
-            }
+        function confirmDelete(judul) {
+            var result = confirm("Are you sure you want to delete '" + judul + "'?");
+            return result;
         }
     </script>
 </body>

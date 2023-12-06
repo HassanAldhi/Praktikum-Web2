@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Buku;
 use App\Models\Galeri;
+use App\Models\Rating;
+use App\Models\Favorit;
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 
 class BukuController extends Controller
@@ -14,6 +17,7 @@ class BukuController extends Controller
         $data_buku = Buku::orderBy('id','desc')->paginate($batas);
         $jumlah_buku = Buku::count();
         $total = Buku::sum('harga');
+        
 
         return view('dashboard', compact('data_buku','jumlah_buku','total'));
     }
@@ -129,8 +133,80 @@ class BukuController extends Controller
         return view('buku.search', compact('jumlah_buku','total','data_buku','cari'));
     }
 
-    public function galbuku($id){
+    public function galbuku($id)
+    {
         $buku = Buku::find($id);
-        return view('buku.detail', compact('buku'));
+    
+        $rating = Rating::where('buku_id', $id);
+    
+        $ratingCounts = $rating->selectRaw('rating, COUNT(*) as count')
+        ->groupBy('rating')
+        ->pluck('count', 'rating')
+        ->toArray();
+        
+        $a = $ratingCounts[1] ?? 0;
+        $b = $ratingCounts[2] ?? 0;
+        $c = $ratingCounts[3] ?? 0;
+        $d = $ratingCounts[4] ?? 0;
+        $e = $ratingCounts[5] ?? 0;
+    
+        $R = Rating::where('buku_id', $id)->count(); 
+    
+        if ($R != 0) {
+            $AR = ($a + 2 * $b + 3 * $c + 4 * $d + 5 * $e) / $R;
+        }else{
+            $AR = "Rating is not available";
+        }
+    
+        return view('buku.detail', compact('buku', 'AR', 'R'));
     }
+    
+
+    public function ratingStore(Request $request, string $id)
+    {
+        $bukuId = $id;
+        $userId = auth()->user()->id;
+    
+        $existingRating = Rating::where('user_id', $userId)
+            ->where('buku_id', $bukuId)
+            ->first();
+    
+        if ($existingRating) {
+            return redirect()->back()->with('error', 'Anda telah memberikan rating untuk buku ini.');
+        }
+    
+        Rating::updateOrCreate(
+            ['user_id' => $userId, 'buku_id' => $bukuId],
+            ['rating' => $request->input('rating')]
+        );
+    
+        return redirect()->back()->with('pesan', 'Rating berhasil ditambahkan!');
+    }
+
+    public function favorit(){
+        $user = auth()->user();
+        $favoritedBooks = $user->favorits()->with('buku')->get();
+    
+        return view('buku.favorit', compact('favoritedBooks'));
+    }
+
+    public function favoritStore(Request $request, string $id)
+    {
+        $bukuId = $id;
+        $userId = auth()->user()->id;
+    
+        $existingFavorit = Favorit::where('user_id', $userId)
+            ->where('buku_id', $bukuId)
+            ->first();
+    
+        if ($existingFavorit) {
+            return redirect()->back()->with('error', 'Anda telah menambahkan favorit untuk buku ini.');
+        }
+    
+        Favorit::updateOrCreate(
+            ['user_id' => $userId, 'buku_id' => $bukuId]);
+    
+        return redirect()->back()->with('pesan', 'Favorit berhasil ditambahkan!');
+    }
+
 }

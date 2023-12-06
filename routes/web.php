@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard',[BukuController::class,'index'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/buku',[BukuController::class,'index'])->name('buku');    
+Route::get('/buku',[BukuController::class,'index'])->name('buku');       
 Route::get('/buku/search', [BukuController::class, 'search'])->name('buku.search');
 Route::get('/detail-buku/{id}', [BukuController::class, 'galbuku'])->name('galeri.buku');
 
@@ -34,6 +34,9 @@ Route::middleware('auth')->group(function () {
         Route::post('buku/delete_galeri/{id}', 
         [BukuController::class, 'galeriDestroy'])->name('buku.delete_galeri');
     });
+    Route::post('/buku/rating/{id}', [BukuController::class, 'ratingStore'])->name('ratings.store');
+    Route::match(['get', 'post'], '/buku/favorit/{id}', [BukuController::class, 'favoritStore'])->name('favorit.store');
+    Route::get('/buku/myfavourite',[BukuController::class,'favorit'])->name('buku.favorit'); 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

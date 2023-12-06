@@ -14,7 +14,10 @@
                 @if(Auth::user())
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Buku') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('buku.favorit')" :active="request()->routeIs('buku.favorit')">
+                        {{ __('Buku Favoritku') }}
                     </x-nav-link>
                 </div>
                 @else
